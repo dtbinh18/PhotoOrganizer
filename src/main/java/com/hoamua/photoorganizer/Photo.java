@@ -279,7 +279,7 @@ public class Photo {
         Date dateDetail = directory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
         this.year = simpleDateFormat.format(dateDetail);
-        simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         this.date = simpleDateFormat.format(dateDetail);
 
         // Get original width/height
