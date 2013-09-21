@@ -31,6 +31,10 @@ public class PhotoOrganizer {
      */
     String photoDir;
     /**
+     * Recursively work with files under sub directories or not.
+     */
+    boolean recursive;
+    /**
      * Directory where thump photos will be created in.
      */
     String thumpDir;
@@ -43,6 +47,7 @@ public class PhotoOrganizer {
      * The scale will be kept.
      */
     int thumpMaxWidthHeight;
+    
 
     /**
      *
@@ -57,9 +62,10 @@ public class PhotoOrganizer {
      *
      */
     public void run() {
-        fromDir = PhotoConfig.getString("photo_from_dir", null);
-        photoDir = PhotoConfig.getString("photo_to_dir", null);
-        thumpDir = PhotoConfig.getString("photo_thump_dir", null);
+        fromDir = PhotoConfig.getString("photo_from_dir", "./");
+        photoDir = PhotoConfig.getString("photo_to_dir", "./");
+        recursive = PhotoConfig.getBool("from_dir_recursive", false);
+        thumpDir = PhotoConfig.getString("photo_thump_dir", "./Thumbs");
         thumpCreation = PhotoConfig.getBool("photo_thump_create", false);
         thumpMaxWidthHeight = PhotoConfig.getInt("photo_thump_max_width_height", 150);
 
@@ -74,7 +80,7 @@ public class PhotoOrganizer {
             System.exit(1);
         }
 
-        organizeFileInDir(new File(fromDir));
+        organizeFileInDir(new File(fromDir), recursive);
     }
 
     /**
@@ -82,12 +88,12 @@ public class PhotoOrganizer {
      * 
      * @param dir 
      */
-    private void organizeFileInDir(File dir) {
+    private void organizeFileInDir(File dir, boolean recursive) {
         for (File entry : dir.listFiles()) {
             if (entry.isFile()) {
                 orginizeFile(entry);
-            } else if (entry.isDirectory()) {
-                organizeFileInDir(entry);
+            } else if (entry.isDirectory() && recursive) {
+                organizeFileInDir(entry, recursive);
             }
         }
     }

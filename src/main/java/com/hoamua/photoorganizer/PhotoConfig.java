@@ -29,7 +29,7 @@ public class PhotoConfig {
      */
     static {
         try {
-            File configFile = new File("./conf/photo-organizer.conf");
+            File configFile = new File("./photo-organizer.conf");
             if (! configFile.exists()) {
                 throw new IOException("Configuration file does not exists, " + configFile.getAbsolutePath());
             }

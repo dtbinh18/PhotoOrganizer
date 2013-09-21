@@ -274,7 +274,10 @@ public class Photo {
 
         // obtain the Exif directory
         ExifSubIFDDirectory directory = metadata.getDirectory(ExifSubIFDDirectory.class);
-
+        if (directory == null) {
+            throw new NullPointerException();
+        }
+        
         // Set YEAR/DATE
         Date dateDetail = directory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
