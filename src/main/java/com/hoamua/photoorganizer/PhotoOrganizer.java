@@ -122,7 +122,7 @@ public class PhotoOrganizer {
         logger.log(Level.INFO, "FINISH, {0}", file.getAbsolutePath());
         
         // oranize other files (movies)
-        Media m = new Media(photoDir, file.getAbsolutePath());
+        Video m = new Video(photoDir, file.getAbsolutePath());
         m.organizePhoto();
     }
 }
