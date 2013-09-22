@@ -184,7 +184,7 @@ public class Photo {
      *                       |__ {Organized photos}
      * </pre>
      */
-    public boolean oganizePhoto() {
+    public boolean organizePhoto() {
         try {
             readMetadata();
         } catch (IOException ex) {
@@ -303,15 +303,16 @@ public class Photo {
      * @throws IOException
      */
     public void move(File src, File dst) throws IOException {
-        if (dst.exists()) {
-        }
-        if (src.renameTo(dst)) {
+        // Overwite
+        if (src.exists() && dst.exists() && isDuplicated(src, dst)) {
+            logger.log(Level.WARNING, "DUPLICATED " + src.getAbsolutePath() + " " + dst.getAbsolutePath());
             return;
         }
-
-        // Overwite
-        if (src.exists() && dst.exists()) {
-            dst.delete();
+        
+        // rename first. if failed, then copy
+        if (src.renameTo(dst)) {
+            logger.log(Level.WARNING, "MOVED " + src.getAbsolutePath() + " " + dst.getAbsolutePath());
+            return;
         }
 
         InputStream in = new FileInputStream(src);
@@ -328,6 +329,9 @@ public class Photo {
         if (dst.exists()) {
             src.delete();
         }
+        
+        logger.log(Level.WARNING, "COPIED " + src.getAbsolutePath() + " " + dst.getAbsolutePath());
+
     }
 
     /**

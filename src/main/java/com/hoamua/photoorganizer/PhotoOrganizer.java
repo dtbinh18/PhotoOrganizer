@@ -109,11 +109,20 @@ public class PhotoOrganizer {
      */
     private void orginizeFile(File file) {
         logger.log(Level.INFO, "START, {0}", file.getAbsolutePath());
+        
+        // organize image file
         Photo p = new Photo(photoDir, thumpDir, file.getAbsolutePath());
-        boolean result = p.oganizePhoto();
+        boolean result = p.organizePhoto();
         if (result && thumpCreation) {
             p.createThump(thumpMaxWidthHeight);
         }
+        if (result) {
+            return;
+        }
         logger.log(Level.INFO, "FINISH, {0}", file.getAbsolutePath());
+        
+        // oranize other files (movies)
+        Media m = new Media(photoDir, file.getAbsolutePath());
+        m.organizePhoto();
     }
 }
